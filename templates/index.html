@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TripMate AI</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <main class="app-container">
+
+        <section class="hero-section">
+            <div class="badge">
+                ✈️ TripMate AI — Multi-Agent Travel Planner
+            </div>
+
+            <h1>
+                Made by Ansh
+            </h1>
+
+            <p>
+                Choose your country, transport mode, and travel style to generate a practical travel plan with AI.
+            </p>
+            <p class="hero-note">
+                Tip: when Country is set to Global, the planner can suggest flexible city-to-city or country-to-country travel ideas.
+            </p>
+        </section>
+
+        <section class="planner-card">
+
+            <div class="card-header">
+                <div>
+                    <h2>Where do you want to go?</h2>
+                    <p>
+                        Example: Plan a 5-day trip to Delhi with trains and hotels under 40k.
+                    </p>
+                </div>
+
+                <div class="status-pill">
+                    <span class="status-dot"></span>
+                    Live
+                </div>
+            </div>
+
+            <div class="selector-row">
+                <label class="selector-card">
+                    <span>Country / Region</span>
+                    <select id="countryInput">
+                        {% for c in countries %}
+                        <option value="{{ c }}" {% if c == 'India' %}selected{% endif %}>{{ c }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+
+                <label class="selector-card">
+                    <span>Transport</span>
+                    <select id="transportSelect">
+                        <option value="Flights">Flights</option>
+                        <option value="Trains">Trains</option>
+                        <option value="Buses">Buses</option>
+                        <option value="All" selected>All</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="selector-row trip-fields">
+                <label class="selector-card">
+                    <span>Start Date</span>
+                    <input type="date" id="startDate" />
+                </label>
+            </div>
+
+            <div class="input-area">
+                <textarea
+                    id="userInput"
+                    placeholder="Enter trip destination and details here, for example: 10-day worldwide Bali itinerary under 1 lakh."
+                ></textarea>
+
+                <button id="sendBtn" onclick="sendMessage()">
+                    <span id="btnText">Generate Plan</span>
+                    <span id="btnLoader" class="loader hidden"></span>
+                </button>
+            </div>
+
+            <div class="quick-prompts">
+                <button onclick="setPrompt('Plan a 5-day trip to Goa with flights, hotels, and sightseeing under 40k.')">
+                    Goa (5 days)
+                </button>
+
+                <button onclick="setPrompt('Plan a 7-day trip to Paris with flights, hotels, and sightseeing.')">
+                    Paris (7 days)
+                </button>
+
+                <button onclick="setPrompt('Plan a 10-day global trip with beaches, culture and budget hotels.')">
+                    Global Plan
+                </button>
+
+                <button onclick="setPrompt('Create a multi-city worldwide route with flights and hotels for 12 days.')">
+                    Worldwide Trip
+                </button>
+            </div>
+
+        </section>
+
+        <section id="resultSection" class="result-section hidden">
+
+            <div class="result-header">
+                <div>
+                    <h2>Your AI Travel Plan</h2>
+                    <p id="threadInfo">Thread ID: -</p>
+                </div>
+
+                <div class="result-actions">
+                    <button class="copy-btn" onclick="copyResult()">
+                        Copy
+                    </button>
+
+                    <button class="download-btn" onclick="downloadPDF()">
+                        Download PDF
+                    </button>
+                </div>
+            </div>
+
+            <div id="pdfContent" class="pdf-content">
+                <h1 class="pdf-title">AI Travel Plan</h1>
+                <div id="resultBox" class="result-box"></div>
+            </div>
+
+        </section>
+
+        <section id="errorBox" class="error-box hidden"></section>
+
+    </main>
+
+    <footer>
+        Built with FastAPI, LangGraph, Groq, PostgreSQL, Tavily and AviationStack
+    </footer>
+
+    <!-- Markdown Renderer -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- PDF Download Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <!-- Your Custom JS -->
+    <script src="/static/script.js"></script>
+
+</body>
+</html>
