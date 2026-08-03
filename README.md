@@ -89,7 +89,7 @@ python app.py
 Then open your browser at:
 
 ```text
-http://127.0.0.1:8000/
+http://127.0.0.1:8003/
 ```
 
 ## API Endpoints
@@ -100,7 +100,7 @@ http://127.0.0.1:8000/
 Example request:
 
 ```bash
-curl -X POST http://127.0.0.1:8000/api/travel \
+curl -X POST http://127.0.0.1:8003/api/travel \
   -H "Content-Type: application/json" \
   -d '{"message":"Plan a 3-day trip to Tokyo with a budget of $1200"}'
 ```
